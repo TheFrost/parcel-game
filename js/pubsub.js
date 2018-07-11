@@ -11,7 +11,7 @@ export default class PubSub {
   }
 
   suscribe(event, handler, context) {
-    if (typeof contex === 'undefined') context = handler;
+    if (typeof context === 'undefined') context = handler;
     this.class.handlers.push({
       event: event,
       handler: handler.bind(context)
