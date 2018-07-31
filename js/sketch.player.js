@@ -81,8 +81,6 @@ export default class SketchPlayer extends Sketch {
       this.drawRectV
     ]);
     this.isDrawingShape = true;
-
-    console.log(this.shape);
   }
   //#endregion Custom methods
 

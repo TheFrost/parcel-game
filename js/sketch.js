@@ -8,10 +8,9 @@ export default class Sketch {
       width: 300,
       height: 400,
       background: [0, 0],
-      parent: null
+      parent: null,
+      ...config
     };
-
-    Object.assign(this.sketch, config);
 
     this.p5Instance();
   }
