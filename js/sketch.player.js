@@ -1,6 +1,9 @@
 import Sketch from './sketch';
 import PubSub from './pubsub';
 
+const distanceBetween = (p1, p2) => Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+const angleBetween = (p1, p2) => Math.atan2(p2.x - p1.x, p2.y - p1.y);
+
 export default class SketchPlayer extends Sketch {
   constructor(config) {
     super(config);
@@ -13,6 +16,9 @@ export default class SketchPlayer extends Sketch {
     this.gameOver = false;
     this.drawLevel = 80;
     this.shape = null;
+
+    this.brushPos = null;
+    this.lastPoint = null;
 
     this.bindEvents();
   }
@@ -54,6 +60,17 @@ export default class SketchPlayer extends Sketch {
     }
 
     return blackPixels;
+  }
+
+  pointerStart() {
+    if (this.gameOver) return;
+    this.lastPoint = { x: this.p5.mouseX, y: this.p5.mouseY };
+    this.p5.loop();
+  }
+
+  pointerRelease() {
+    this.validatePixels();
+    this.p5.noLoop();
   }
 
   drawCircle() {
@@ -102,13 +119,20 @@ export default class SketchPlayer extends Sketch {
     if (this.gameOver) return;
 
     if (!this.isTheFirstPhase || !this.isDrawingShape) {
-      this.p5.noStroke();
-      this.p5.fill(255, 100, 0);
-      this.p5.ellipse(
-        this.p5.mouseX,
-        this.p5.mouseY,
-        20
-      );
+      const currentPoint = { x: this.p5.mouseX, y: this.p5.mouseY };
+      const dist = distanceBetween(this.lastPoint, currentPoint);
+      const angle = angleBetween(this.lastPoint, currentPoint);
+
+      for (let i = 0; i < dist; i+=5) {
+        const x = this.lastPoint.x + (Math.sin(angle) * i) - 25;
+        const y = this.lastPoint.y + (Math.cos(angle) * i) - 25;
+
+        this.p5.noStroke();
+        this.p5.fill(255, 100, 0);
+        this.p5.ellipse(x+20, y+20, 20);
+      }
+
+      this.lastPoint = currentPoint;
     }
 
     if (this.isDrawingShape) {
@@ -127,23 +151,19 @@ export default class SketchPlayer extends Sketch {
   //#region p5.js event handlers
   onTouchStarted(e) {
     e.preventDefault();
-    if (this.gameOver) return;
-    this.p5.loop();
+    this.pointerStart();
   }
   
   onTouchEnded() {
-    this.validatePixels();
-    this.p5.noLoop();
+    this.pointerRelease();
   }
   
   onMousePressed() {
-    if (this.gameOver) return;
-    this.p5.loop();
+    this.pointerStart();
   }
   
   onMouseReleased() {
-    this.validatePixels();
-    this.p5.noLoop();
+    this.pointerRelease();
   }
   //#endregion p5.js event handlers
 };
