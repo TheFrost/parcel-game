@@ -8,20 +8,22 @@
 
   <style>
 		body {
-			display: flex;
-			justify-content: center;
-			flex-direction: column;
-			align-items: center;
-			width: 100vw;
-			height: 100vh;
-      margin: 0;
+			margin: 0;
 			padding: 0;
 			overflow: hidden;
-			background-color: #FF8C00;
 		}
+		* { box-sizing: border-box }
 		canvas {
 			display: block;
 			border: 3px solid white;
+		}
+		.sketch__wrapper {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100vw;
+			height: 100vh;
+			background-color: #FF8C00;
 		}
 		.sketch__container {
 			position: relative;
@@ -35,9 +37,11 @@
 	</style>
 </head>
 <body>
-  <div class="sketch__container">
-		<div class="sketch__item up" id="sketch-player"></div>
-		<div class="sketch__item" id="sketch-ui"></div>
+  <div class="sketch__wrapper">
+		<div class="sketch__container">
+			<div class="sketch__item up" id="sketch-player"></div>
+			<div class="sketch__item" id="sketch-ui"></div>
+		</div>
 	</div>
 
   <script src="index.js"></script>

@@ -8,7 +8,15 @@ export default class GameApp {
   }
 
   init() {
-    new SketchPlayer(this.config.player);
-    new SketchUI(this.config.ui);
+    new SketchPlayer(
+			this.config.gameWidth,
+			this.config.gameHeight,
+			this.config.player
+		);
+    new SketchUI(
+			this.config.gameWidth,
+			this.config.gameHeight,
+			this.config.ui
+		);
   }
 }

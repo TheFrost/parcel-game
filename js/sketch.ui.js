@@ -1,9 +1,8 @@
 import Sketch from './sketch';
-import PubSub from './pubsub';
 
 export default class SketchUI extends Sketch {
-  constructor(config) {
-    super(config);
+  constructor(gameWidth, gameHeight, config) {
+    super(gameWidth, gameHeight, config);
 
     this.timer = config.timeLimit || 60; // in seconds
     this.startTime = Date.now();
@@ -13,7 +12,6 @@ export default class SketchUI extends Sketch {
     this.pointsMultiplier = 1;
     this.counterGoods = 0;
     this.multiplierLimitChanger = 3;
-    this.pubsub = new PubSub();
 
     this.init();
   }
@@ -49,14 +47,9 @@ export default class SketchUI extends Sketch {
   //#endregion Custom methods
 
   //#region p5.js main methods
-  p5Setup() {
-    this.p5.createCanvas(
-      this.sketch.width,
-      this.sketch.height
-    );
-  }
+  setup() {}
 
-  p5Draw() {
+  draw() {
     const p5 = this.p5;
 
     p5.background(this.sketch.background);

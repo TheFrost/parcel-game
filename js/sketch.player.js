@@ -1,21 +1,21 @@
 import Sketch from './sketch';
-import PubSub from './pubsub';
+
+import brushPattern from '../resources/brush-cheese.png';
 
 const distanceBetween = (p1, p2) => Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 const angleBetween = (p1, p2) => Math.atan2(p2.x - p1.x, p2.y - p1.y);
 
 export default class SketchPlayer extends Sketch {
-  constructor(config) {
-    super(config);
-
-    this.pubsub = new PubSub();
+  constructor(gameWidth, gameHeight, config) {
+    super(gameWidth, gameHeight, config);
 
     this.completeShapePixels = 0;
     this.isTheFirstPhase = true;
     this.isDrawingShape = true;
     this.gameOver = false;
     this.drawLevel = 80;
-    this.shape = null;
+		this.shape = null;
+		this.brush = null;
 
     this.brushPos = null;
     this.lastPoint = null;
@@ -102,20 +102,20 @@ export default class SketchPlayer extends Sketch {
   //#endregion Custom methods
 
   //#region p5.js main methods
-  p5Setup() {
-    this.p5.createCanvas(
-      this.sketch.width,
-      this.sketch.height
-    );
+  setup() {
     this.p5.background(this.sketch.background);
     this.p5.noLoop();
     this.p5.pixelDensity(1);
 
     this.p5.rectMode(this.p5.CENTER);
-    this.getNewShape();
+		this.getNewShape();
+		
+		this.brush = this.p5.loadImage(brushPattern);
+
+		console.log(this.p5);
   }
   
-  p5Draw() {
+  draw() {
     if (this.gameOver) return;
 
     if (!this.isTheFirstPhase || !this.isDrawingShape) {
@@ -127,9 +127,11 @@ export default class SketchPlayer extends Sketch {
         const x = this.lastPoint.x + (Math.sin(angle) * i) - 25;
         const y = this.lastPoint.y + (Math.cos(angle) * i) - 25;
 
-        this.p5.noStroke();
-        this.p5.fill(255, 100, 0);
-        this.p5.ellipse(x+20, y+20, 20);
+        // this.p5.noStroke();
+        // this.p5.fill(255, 100, 0);
+				// this.p5.ellipse(x+20, y+20, 20);
+				
+				this.p5.image(this.brush, x+20, y+20, 10, 10);
       }
 
       this.lastPoint = currentPoint;
