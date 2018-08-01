@@ -2,12 +2,9 @@
 if(module.hot){module.hot.dispose(()=>window.location.reload())}
 /** end parch */
 
-import GameApp from './js/game.app';
+import GameApp from './game.app';
 
-
-var height = window.innerHeight*0.8;
-var width = height*0.6;
-new GameApp({
+const app = new GameApp({
 	gameWidth: 288,
 	gameHeight: 512,
   player: {
@@ -18,3 +15,5 @@ new GameApp({
     parent: 'sketch-ui'
   }
 });
+
+app.init(2);

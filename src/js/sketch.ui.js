@@ -1,17 +1,16 @@
 import Sketch from './sketch';
 
 export default class SketchUI extends Sketch {
-  constructor(gameWidth, gameHeight, config) {
+  constructor(gameWidth, gameHeight, config, scoreMultiplier = 1) {
     super(gameWidth, gameHeight, config);
 
     this.timer = config.timeLimit || 60; // in seconds
     this.startTime = Date.now();
 
-    this.userPoints = 0;
-    this.pointsPerShape = 10;
-    this.pointsMultiplier = 1;
-    this.counterGoods = 0;
-    this.multiplierLimitChanger = 3;
+    this.score = 0;
+    this.finalScore = 0;
+    this.scorePerShape = 10;
+    this.scoreMultiplier = scoreMultiplier;
 
     this.init();
   }
@@ -22,27 +21,25 @@ export default class SketchUI extends Sketch {
   }
 
   bindEvents() {
-    this.pubsub.suscribe('goodDraw', this.onGoodDraw, this);
-    this.pubsub.suscribe('failDraw', this.onFailDraw, this);
+    this.pubsub.suscribe('completedDraw', this.onCompletedDraw, this);
   }
 
-  onGoodDraw() {
-    this.userPoints += (this.pointsPerShape * this.pointsMultiplier);
-    this.counterGoods += 1;
-    
-    if (this.counterGoods % this.multiplierLimitChanger === 0) {
-      this.pointsMultiplier += 1;
-    }
-  }
-  
-  onFailDraw() {
-    this.counterGoods = 0;
-    this.pointsMultiplier = 1;
+  onCompletedDraw() {
+    this.score += this.scorePerShape;
+    console.log('score:', this.score);
   }
 
   getCountDown() {
     let ellapsed = this.p5.floor((Date.now() - this.startTime)/1000);
     return this.timer - ellapsed;
+  }
+
+  triggerFinishGame() {
+    this.pubsub.publish('gameOver');
+    this.p5.noLoop();
+    this.finalScore = this.score * this.scoreMultiplier;
+    console.log('multiplier:', this.scoreMultiplier);
+    console.log('finalScore:', this.finalScore);
   }
   //#endregion Custom methods
 
@@ -63,16 +60,13 @@ export default class SketchUI extends Sketch {
     p5.textStyle(p5.BOLD);
 
     // points
-    p5.text(this.userPoints, p5.width/2, 50);
+    p5.text(this.score, p5.width/2, 50);
 
     // timer
     let time = this.getCountDown();
     let message = time > 0 ? time + ' sec' : 'GAME OVER';
     p5.text(message, p5.width/2, p5.height*0.9);
-    if (time === 0) {
-      this.pubsub.publish('gameOver');
-      p5.noLoop();
-    }
+    if (time === 0) this.triggerFinishGame();
   }
   //#endregion p5.js main methods
 };
