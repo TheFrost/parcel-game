@@ -519,5 +519,8 @@ ASALocalRun/
 ### ParcelJS folders compiler ###
 dist/
 .cache/
+public/*.html
+public/*.js
+public/*.map
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,sublimetext,visualstudio,visualstudiocode

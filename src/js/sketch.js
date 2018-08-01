@@ -3,22 +3,22 @@ import PubSub from './pubsub';
 
 export default class Sketch {
   constructor(gameWidth, gameHeight, config) {
-		this.p5 = null;
-		
-		this.GAME_WIDTH = gameWidth;
-		this.GAME_HEIGHT = gameHeight;
-		this.GAME_FACTOR = 0.9;
+    this.p5 = null;
+    
+    this.BASE_WIDTH = gameWidth;
+    this.BASE_HEIGHT = gameHeight;
+    this.BASE_FACTOR = 0.9;
 
     this.sketch = {
       background: [0, 0],
       parent: null,
       ...config
-		};
-		
-		this.pubsub = new PubSub();
+    };
+    
+    this.pubsub = new PubSub();
 
     this.p5Instance();
-	}
+  }
 
   p5Instance() {
     this.p5 = new p5((s) => { 
@@ -28,8 +28,8 @@ export default class Sketch {
       s.touchStarted = this.pointerStart.bind(this);
       s.touchEnded = this.pointerRelease.bind(this);
       s.mousePressed = this.pointerStart.bind(this);
-			s.mouseReleased = this.pointerRelease.bind(this);
-			s.windowResized = this.resize.bind(this);
+      s.mouseReleased = this.pointerRelease.bind(this);
+      s.windowResized = this.windowResize.bind(this);
       return s;
     }, this.sketch.parent);
   }
@@ -37,27 +37,37 @@ export default class Sketch {
   preload() {}
 
   p5Setup() {
-		this.canvas = this.p5.createCanvas(
-      this.GAME_WIDTH,
-      this.GAME_HEIGHT
-		);
-		this.setup();
-		this.resize();
+    this.canvas = this.p5.createCanvas(
+      this.BASE_WIDTH,
+      this.BASE_HEIGHT
+    );
+    this.p5.noLoop();
+    this.p5.pixelDensity(1);
+    
+    this.setup();
+    this.resizeCalc();
   }
   
-  resize() {
-		const scale = Math.min(
-			window.innerWidth / this.GAME_WIDTH,
-			window.innerHeight / this.GAME_HEIGHT
-		) * this.GAME_FACTOR;
+  resizeCalc() {
+    this.GAME_SCALE = Math.min(
+      window.innerWidth / this.BASE_WIDTH,
+      window.innerHeight / this.BASE_HEIGHT
+    ) * this.BASE_FACTOR;
 
-		const width = Math.ceil(this.GAME_WIDTH * scale);
-		const height = Math.ceil(this.GAME_HEIGHT * scale);
+    this.GAME_WIDTH = Math.ceil(this.BASE_WIDTH * this.GAME_SCALE);
+    this.GAME_HEIGHT = Math.ceil(this.BASE_HEIGHT * this.GAME_SCALE);
 
-		this.p5.resizeCanvas(width, height, true);
+    this.p5.resizeCanvas(this.GAME_WIDTH, this.GAME_HEIGHT);
   }
   
   pointerStart() {}
 
   pointerRelease() {}
+
+  windowResize() {
+    this.resizeCalc();
+    this.resize();
+  }
+
+  resize() {}
 }

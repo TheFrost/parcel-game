@@ -16,6 +16,7 @@ export default class SketchPlayer extends Sketch {
     this.gameOver = false;
     this.isDrawing = false;
     this.isRenderingShape = true;
+    this.isReady = false;
 
     this.bindEvents();
   }
@@ -28,8 +29,7 @@ export default class SketchPlayer extends Sketch {
 
   setup() {
     this.p5.background(this.sketch.background);
-    this.p5.noLoop();
-    this.p5.pixelDensity(1);
+    this.isReady = true;
   }
   
   draw() {
@@ -49,14 +49,16 @@ export default class SketchPlayer extends Sketch {
     if (this.gameOver) return;
     this.isDrawing = true;
     this.lastPoint = { x: this.p5.mouseX, y: this.p5.mouseY };
-    this.p5.loop();
   }
 
   pointerRelease() {
     if (this.gameOver) return;
-    this.p5.noLoop();
     this.isDrawing = false;
     this.validatePixels();
+  }
+
+  resize() {
+    this.isRenderingShape = true;
   }
   //#endregion p5.js event handlers
 
@@ -74,18 +76,20 @@ export default class SketchPlayer extends Sketch {
       const x = this.lastPoint.x + (Math.sin(angle) * i) - 25;
       const y = this.lastPoint.y + (Math.cos(angle) * i) - 25;
       
-      this.p5.image(this.brush, x+20, y+20, 10, 10);
+      this.p5.image(this.brush, x+20, y+20, 10*this.GAME_SCALE, 10*this.GAME_SCALE);
     }
 
     this.lastPoint = currentPoint;
   }
 
   renderShape() {
+    const size = Math.min(this.GAME_WIDTH, this.GAME_HEIGHT) * 0.9;
+
     this.p5.image(
       this.shape, 
-      this.canvas.width/2-100,
-      this.canvas.height/2-100,
-      210, 210
+      this.GAME_WIDTH/2-size/2,
+      this.GAME_HEIGHT/2-size/2,
+      size, size
     );
 
     this.isRenderingShape = false;

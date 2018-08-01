@@ -5,8 +5,8 @@ if(module.hot){module.hot.dispose(()=>window.location.reload())}
 import GameApp from './game.app';
 
 const app = new GameApp({
-	gameWidth: 288,
-	gameHeight: 512,
+  gameWidth: 360,
+  gameHeight: 640,
   player: {
     parent: 'sketch-player'
   },

@@ -12,8 +12,38 @@ export default class SketchUI extends Sketch {
     this.scorePerShape = 10;
     this.scoreMultiplier = scoreMultiplier;
 
+    //flags
+    this.isReady = false;
+
     this.init();
   }
+
+  //#region p5.js main methods
+  setup() { this.isReady = true; }
+
+  draw() {
+    const p5 = this.p5;
+
+    p5.background(this.sketch.background);
+
+    // format
+    p5.fill(255);
+    p5.strokeWeight(3);
+    p5.stroke(255, 100, 0);
+    p5.textAlign(p5.CENTER, p5.CENTER);
+    p5.textSize(32 * this.GAME_SCALE);
+    p5.textStyle(p5.BOLD);
+
+    // points
+    p5.text(this.score, this.GAME_WIDTH/2, 50 * this.GAME_SCALE);
+
+    // timer
+    const time = this.getCountDown();
+    const message = time > 0 ? time + ' sec' : 'GAME OVER';
+    p5.text(message, this.GAME_WIDTH/2, this.GAME_HEIGHT*0.9);
+    if (time === 0) this.triggerFinishGame();
+  }
+  //#endregion p5.js main methods
 
   //#region Custom methods
   init() {
@@ -36,37 +66,9 @@ export default class SketchUI extends Sketch {
 
   triggerFinishGame() {
     this.pubsub.publish('gameOver');
-    this.p5.noLoop();
     this.finalScore = this.score * this.scoreMultiplier;
     console.log('multiplier:', this.scoreMultiplier);
     console.log('finalScore:', this.finalScore);
   }
   //#endregion Custom methods
-
-  //#region p5.js main methods
-  setup() {}
-
-  draw() {
-    const p5 = this.p5;
-
-    p5.background(this.sketch.background);
-
-    // format
-    p5.fill(255);
-    p5.strokeWeight(3);
-    p5.stroke(255, 100, 0);
-    p5.textAlign(p5.CENTER, p5.CENTER);
-    p5.textSize(32);
-    p5.textStyle(p5.BOLD);
-
-    // points
-    p5.text(this.score, p5.width/2, 50);
-
-    // timer
-    let time = this.getCountDown();
-    let message = time > 0 ? time + ' sec' : 'GAME OVER';
-    p5.text(message, p5.width/2, p5.height*0.9);
-    if (time === 0) this.triggerFinishGame();
-  }
-  //#endregion p5.js main methods
 };

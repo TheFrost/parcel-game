@@ -7,42 +7,42 @@
   <title>Cheetos Game</title>
 
   <style>
-		body {
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-		}
-		* { box-sizing: border-box }
-		canvas {
-			display: block;
-			border: 3px solid white;
-		}
-		.sketch__wrapper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			width: 100vw;
-			height: 100vh;
-			background-color: #FF8C00;
-		}
-		.sketch__container {
-			position: relative;
-		}
-		.sketch__item.up {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 10;
-		}
-	</style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    * { box-sizing: border-box }
+    canvas {
+      display: block;
+      border: 3px solid white;
+    }
+    .sketch__wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      background-color: #FF8C00;
+    }
+    .sketch__container {
+      position: relative;
+    }
+    .sketch__item.up {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+  </style>
 </head>
 <body>
   <div class="sketch__wrapper">
-		<div class="sketch__container">
-			<div class="sketch__item up" id="sketch-player"></div>
-			<div class="sketch__item" id="sketch-ui"></div>
-		</div>
-	</div>
+    <div class="sketch__container">
+      <div class="sketch__item up" id="sketch-player"></div>
+      <div class="sketch__item" id="sketch-ui"></div>
+    </div>
+  </div>
 
   <script src="js/index.js"></script>
 </body>
