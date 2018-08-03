@@ -76,7 +76,7 @@ export default class SketchPlayer extends Sketch {
       const x = this.lastPoint.x + (Math.sin(angle) * i) - 25;
       const y = this.lastPoint.y + (Math.cos(angle) * i) - 25;
       
-      this.p5.image(this.brush, x+20, y+20, 10*this.GAME_SCALE, 10*this.GAME_SCALE);
+      this.p5.image(this.brush, x+20, y+20, 20*this.GAME_SCALE, 20*this.GAME_SCALE);
     }
 
     this.lastPoint = currentPoint;

@@ -1,4 +1,5 @@
 import Sketch from './sketch';
+import { pad } from './utils';
 
 export default class SketchUI extends Sketch {
   constructor(gameWidth, gameHeight, config, scoreMultiplier = 1) {
@@ -19,6 +20,12 @@ export default class SketchUI extends Sketch {
   }
 
   //#region p5.js main methods
+  preload() {
+    this.assets = {
+      scoreBar: this.p5.loadImage('resources/points-bar.png')
+    }
+  }
+
   setup() { this.isReady = true; }
 
   draw() {
@@ -26,16 +33,34 @@ export default class SketchUI extends Sketch {
 
     p5.background(this.sketch.background);
 
+    // points bar asset
+    const pointsBarSize = {
+      width: 348*this.GAME_SCALE,
+      height: 91*this.GAME_SCALE
+    }
+    p5.image(
+      this.assets.scoreBar, 
+      this.GAME_WIDTH/2-pointsBarSize.width/2, 
+      40*this.GAME_SCALE, 
+      pointsBarSize.width, 
+      pointsBarSize.height
+    );
+
     // format
     p5.fill(255);
     p5.strokeWeight(3);
     p5.stroke(255, 100, 0);
-    p5.textAlign(p5.CENTER, p5.CENTER);
-    p5.textSize(32 * this.GAME_SCALE);
+    p5.textSize(48*this.GAME_SCALE);
     p5.textStyle(p5.BOLD);
 
     // points
-    p5.text(this.score, this.GAME_WIDTH/2, 50 * this.GAME_SCALE);
+    p5.textAlign(p5.LEFT, p5.CENTER);
+    p5.text(pad(this.score, 4), this.GAME_WIDTH/2-pointsBarSize.width/2+pointsBarSize.width*0.15, 82*this.GAME_SCALE);
+    
+    // multiplier
+    p5.textAlign(p5.RIGHT, p5.CENTER);
+    p5.text(`x${this.scoreMultiplier}`, this.GAME_WIDTH/2+pointsBarSize.width/2-pointsBarSize.width*0.15, 82*this.GAME_SCALE);
+
 
     // timer
     const time = this.getCountDown();

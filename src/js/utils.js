@@ -18,3 +18,15 @@ export const getPixelCounter = (pixels, callback) => {
 
   return counter;
 };
+
+/**
+ * number to string and size digits
+ * base code from: https://www.electrictoolbox.com/pad-number-zeroes-javascript/
+ */
+export const pad = (number, length) => {
+  var str = '' + number;
+  while (str.length < length) {
+      str = '0' + str;
+  }
+  return str;
+}
