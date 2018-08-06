@@ -44,18 +44,24 @@ export default class Sketch {
     this.p5.noLoop();
     this.p5.pixelDensity(1);
     
-    this.setup();
     this.resizeCalc();
+
+    this.setup();
   }
   
   resizeCalc() {
+    const { visualViewport, innerWidth, innerHeight } = window;
+    const viweportWidth = visualViewport ? visualViewport.width : innerWidth;
+    const viweportHeight = visualViewport ? visualViewport.height : innerHeight;
+
     this.GAME_SCALE = Math.min(
-      window.innerWidth / this.BASE_WIDTH,
-      window.innerHeight / this.BASE_HEIGHT
+      viweportWidth / this.BASE_WIDTH,
+      viweportHeight / this.BASE_HEIGHT
     ) * this.BASE_FACTOR;
 
     this.GAME_WIDTH = Math.ceil(this.BASE_WIDTH * this.GAME_SCALE);
     this.GAME_HEIGHT = Math.ceil(this.BASE_HEIGHT * this.GAME_SCALE);
+
 
     this.p5.resizeCanvas(this.GAME_WIDTH, this.GAME_HEIGHT);
   }

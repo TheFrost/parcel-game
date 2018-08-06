@@ -2,13 +2,13 @@
 if(module.hot){module.hot.dispose(()=>window.location.reload())}
 /** end parch */
 
-import GameApp from './game.app';
+import GameApp from './js/game.app';
 
 const app = new GameApp({
-  gameWidth: 750,
-  gameHeight: 1334,
-  // gameWidth: 360,
-  // gameHeight: 640,
+  // gameWidth: 750,
+  // gameHeight: 1334,
+  gameWidth: 360,
+  gameHeight: 640,
   player: {
     parent: 'sketch-player'
   },
