@@ -85,10 +85,11 @@ export default class SketchPlayer extends Sketch {
   renderShape() {
     const size = Math.min(this.GAME_WIDTH, this.GAME_HEIGHT) * 0.9;
 
+    this.p5.imageMode(this.p5.CENTER);
     this.p5.image(
       this.shape, 
-      this.GAME_WIDTH/2-size/2,
-      this.GAME_HEIGHT/2-size/2,
+      this.GAME_WIDTH/2,
+      this.GAME_HEIGHT/2,
       size, size
     );
 
