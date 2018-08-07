@@ -44,7 +44,7 @@ export default class Sketch {
     this.p5.noLoop();
     this.p5.pixelDensity(1);
     
-    this.resizeCalc();
+    this.windowResize();
 
     this.setup();
   }
@@ -61,9 +61,6 @@ export default class Sketch {
 
     this.GAME_WIDTH = Math.ceil(this.BASE_WIDTH * this.GAME_SCALE);
     this.GAME_HEIGHT = Math.ceil(this.BASE_HEIGHT * this.GAME_SCALE);
-
-
-    this.p5.resizeCanvas(this.GAME_WIDTH, this.GAME_HEIGHT);
   }
   
   pointerStart() {}
@@ -73,6 +70,7 @@ export default class Sketch {
   windowResize() {
     this.resizeCalc();
     this.resize();
+    this.p5.resizeCanvas(this.GAME_WIDTH, this.GAME_HEIGHT);
   }
 
   resize() {}

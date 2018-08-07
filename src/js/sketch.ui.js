@@ -5,7 +5,7 @@ export default class SketchUI extends Sketch {
   constructor(gameWidth, gameHeight, config, scoreMultiplier = 1) {
     super(gameWidth, gameHeight, config);
 
-    this.timer = config.timeLimit || 60; // in seconds
+    this.timer = config.timeLimit || 5; // in seconds
     this.startTime = Date.now();
     this.timeFactor = 0;
 
@@ -16,6 +16,7 @@ export default class SketchUI extends Sketch {
 
     //flags
     this.isReady = false;
+    this.gameOver = false;
 
     this.init();
   }
@@ -40,6 +41,7 @@ export default class SketchUI extends Sketch {
     this.renderTimeBar();
 
     // validate time factor limit
+    if (this.gameOver) return;
     this.timeFactor = this.getTimeFactor();
     if (this.timeFactor > 1) return this.triggerFinishGame();
   }
@@ -129,6 +131,7 @@ export default class SketchUI extends Sketch {
 
   triggerFinishGame() {
     this.pubsub.publish('gameOver');
+    this.gameOver = true;
     this.finalScore = this.score * this.scoreMultiplier;
     console.log('multiplier:', this.scoreMultiplier);
     console.log('finalScore:', this.finalScore);

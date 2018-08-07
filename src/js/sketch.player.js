@@ -33,9 +33,10 @@ export default class SketchPlayer extends Sketch {
   }
   
   draw() {
-    if (this.gameOver) return;
-
     if (this.isRenderingShape) this.renderShape();
+
+    // if game over prevent play logic
+    if (this.gameOver) return;
 
     if (this.isTheFirstPhase) this.setupPixels();
 
