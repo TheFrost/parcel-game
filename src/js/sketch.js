@@ -2,20 +2,24 @@ import p5 from 'p5';
 import PubSub from './pubsub';
 
 export default class Sketch {
-  constructor(gameWidth, gameHeight, config) {
+  constructor(config) {
     this.p5 = null;
-    
-    this.BASE_WIDTH = gameWidth;
-    this.BASE_HEIGHT = gameHeight;
-    this.BASE_FACTOR = 0.9;
+    this.buffer = null;
 
     this.sketch = {
-      background: [0, 0],
+      w: 360, 
+      h: 640, 
+      timeLimit: 60,
+      setupBuffer: false,
       parent: null,
-      ...config
+      ...config 
     };
     
     this.pubsub = new PubSub();
+
+    this.BASE_WIDTH = this.sketch.w;
+    this.BASE_HEIGHT = this.sketch.h;
+    this.BASE_FACTOR = 0.9;
 
     this.p5Instance();
   }
@@ -37,12 +41,24 @@ export default class Sketch {
   preload() {}
 
   p5Setup() {
-    this.canvas = this.p5.createCanvas(
+    const { p5 } = this;
+
+    this.canvas = p5.createCanvas(
       this.BASE_WIDTH,
       this.BASE_HEIGHT
     );
-    this.p5.noLoop();
-    this.p5.pixelDensity(1);
+    p5.noLoop();
+    p5.pixelDensity(1);
+
+    if (this.sketch.setupBuffer) {
+      this.buffer = p5.createGraphics(
+        this.BASE_WIDTH,
+        this.BASE_HEIGHT
+      );
+
+      this.buffer.pixelDensity(1);
+    } 
+
     
     this.windowResize();
 

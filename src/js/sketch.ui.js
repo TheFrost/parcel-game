@@ -2,17 +2,17 @@ import Sketch from './sketch';
 import { pad } from './utils';
 
 export default class SketchUI extends Sketch {
-  constructor(gameWidth, gameHeight, config, scoreMultiplier = 1) {
-    super(gameWidth, gameHeight, config);
+  constructor(config) {
+    super(config);
 
-    this.timer = config.timeLimit || 5; // in seconds
+    this.timer = config.timeLimit || 60; // in seconds
     this.startTime = Date.now();
     this.timeFactor = 0;
 
     this.score = 0;
     this.finalScore = 0;
     this.scorePerShape = 10;
-    this.scoreMultiplier = scoreMultiplier;
+    this.gameLevel = config.gameLevel;
 
     //flags
     this.isReady = false;
@@ -29,8 +29,9 @@ export default class SketchUI extends Sketch {
 
   setup() { 
     this.setupAssets();
+    this.publishResources();
 
-    this.isReady = true; 
+    this.isReady = true;
   }
 
   draw() {
@@ -56,6 +57,11 @@ export default class SketchUI extends Sketch {
 
   bindEvents() {
     this.pubsub.suscribe('completedDraw', this.onCompletedDraw, this);
+  }
+
+  publishResources() {
+    const { spriteMedia, tilesetData } = this;
+    this.pubsub.publish('uiSpriteReady', { spriteMedia, tilesetData });
   }
 
   setupAssets() {
@@ -132,8 +138,8 @@ export default class SketchUI extends Sketch {
   triggerFinishGame() {
     this.pubsub.publish('gameOver');
     this.gameOver = true;
-    this.finalScore = this.score * this.scoreMultiplier;
-    console.log('multiplier:', this.scoreMultiplier);
+    this.finalScore = this.score * this.gameLevel;
+    console.log('multiplier:', this.gameLevel);
     console.log('finalScore:', this.finalScore);
   }
 
@@ -249,7 +255,7 @@ export default class SketchUI extends Sketch {
     
     // multiplier
     p5.textAlign(p5.RIGHT, p5.CENTER);
-    p5.text(`x${this.scoreMultiplier}`, this.GAME_WIDTH/2 + this.barPoints.wDraw/2 - this.barPoints.wDraw*0.15, 61*this.GAME_SCALE);
+    p5.text(`x${this.gameLevel}`, this.GAME_WIDTH/2 + this.barPoints.wDraw/2 - this.barPoints.wDraw*0.15, 61*this.GAME_SCALE);
   }
   //#endregion Custom methods
 };

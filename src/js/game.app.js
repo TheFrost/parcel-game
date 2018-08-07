@@ -11,19 +11,18 @@ export default class GameApp {
     this.gameOver = false;
   }
 
-  init(scoreMultiplier) {
-    this.sketchPlayer = new SketchPlayer(
-      this.config.gameWidth,
-      this.config.gameHeight,
-      this.config.player
-    );
+  init(gameLevel) {
+    this.sketchPlayer = new SketchPlayer({
+      setupBuffer: true,
+      parent: 'sketch-player',
+      ...this.config
+    });
     
-    this.sketchUi = new SketchUI(
-      this.config.gameWidth,
-      this.config.gameHeight,
-      this.config.ui,
-      scoreMultiplier
-    );
+    this.sketchUi = new SketchUI({
+      parent: 'sketch-ui',
+      gameLevel: gameLevel,
+      ...this.config
+    });
     
     this.bindEvents();
     this.draw();
