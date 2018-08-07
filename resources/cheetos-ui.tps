@@ -26,7 +26,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <true/>
+        <false/>
         <key>shapeDebug</key>
         <false/>
         <key>dpi</key>
@@ -194,6 +194,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../public/resources/ui/brush-cheese.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0,0</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>60,60,120,120</rect>
+                <key>scale9Paddings</key>
+                <rect>60,60,120,120</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../public/resources/ui/cheese-points.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -243,6 +256,19 @@
                 <rect>42,11,84,22</rect>
                 <key>scale9Paddings</key>
                 <rect>42,11,84,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../public/resources/ui/time-bar-full.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0,0</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>59,9,118,18</rect>
+                <key>scale9Paddings</key>
+                <rect>59,9,118,18</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
